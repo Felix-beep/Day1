@@ -28,28 +28,25 @@ auto isSubstring = [](const string& str, const string& sub) {
 	return str.compare(0, sub.length(), sub) == 0;
 };
 
-auto FindValidNumbers = [](const string& str, vector<int>& PossibleNumbers) {
-	auto newPossibleNumbers = PossibleNumbers | std::ranges::views::filter([&str](int num) {
+auto FindValidNumbers = [](const string& str) {
+	return std::ranges::views::filter([&str](int num) {
 		return isSubstring(NumberToWord[num], str);
-		});
-	vector<int> result; 
-	std::ranges::copy(newPossibleNumbers, std::back_inserter(result));
-	return result;
+	});
 };
 
-auto ProcessString = [](const string& str) {
-	vector<int> AvailableNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+auto processString = [](const string& str) {
+	const auto AvailableNumbers = std::ranges::iota_view(1, 10);
 	string newStr;
 	int index = 0;
 	int curtain = 0;
 
 	for(char i : str) {
 		string remainingStr = str.substr(index);
-		vector<int> PossibleNumbers = AvailableNumbers;
+		auto PossibleNumbers = AvailableNumbers;
 		string word;
 		for (char c : remainingStr) {
 			word += c;
-			PossibleNumbers = FindValidNumbers(word, PossibleNumbers);
+			PossibleNumbers = PossibleNumbers | FindValidNumbers(word);
 			if (PossibleNumbers.size() == 0) {
 				if (index >= curtain) {
 					newStr += c;

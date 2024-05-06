@@ -21,7 +21,7 @@ int main()
     auto result = Lines 
         | std::ranges::views::transform([](const string& str) 
             {
-                return ProcessString(str);
+                return processString(str);
             })
         | std::ranges::views::transform([](const string& str) 
             {
