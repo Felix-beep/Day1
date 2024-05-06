@@ -43,13 +43,13 @@ auto ProcessString = [](const string& str) {
 	int index = 0;
 	int curtain = 0;
 
-	for(char c : str) {
-		string rest = str.substr(index);
+	for(char i : str) {
+		string remainingStr = str.substr(index);
 		vector<int> PossibleNumbers = AvailableNumbers;
-		string buffer;
-		for (char r : rest) {
-			buffer += r;
-			PossibleNumbers = FindValidNumbers(buffer, PossibleNumbers);
+		string word;
+		for (char c : remainingStr) {
+			word += c;
+			PossibleNumbers = FindValidNumbers(word, PossibleNumbers);
 			if (PossibleNumbers.size() == 0) {
 				if (index >= curtain) {
 					newStr += c;
@@ -58,9 +58,9 @@ auto ProcessString = [](const string& str) {
 				break;
 			}
 			if (PossibleNumbers.size() == 1) {
-				if (NumberToWord[PossibleNumbers[0]] == buffer) {
+				if (NumberToWord[PossibleNumbers[0]] == word) {
 					newStr += to_string(PossibleNumbers[0]);
-					curtain = index + buffer.size();
+					curtain = index + word.size();
 					break;
 				}
 			}
